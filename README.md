@@ -7,3 +7,4 @@ Backend tarafında kullanılan yapılar;
 ** Repository Pattern,
 ** CQRS Pattern,
 ** MediatR kütüphanesi,
+** AutoMapper
