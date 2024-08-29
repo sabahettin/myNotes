@@ -1,0 +1,110 @@
+<div class="mt-5">
+  <div class="row">
+    <div class="col-md-8 col-12 mb-3">
+      <form #createUpdateForm="ngForm" formValidate>
+        <div class="row">
+          <div class="form-group col-md-6 col-12 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="categoryNameInput"
+              placeholder="Category Name.."
+              [(ngModel)]="categoryModel.categoryName"
+              name="CategoryName"
+              required
+              minlength="3"
+            />
+            <div class="invalid-feedback">
+              Please lengthen this to 3 characters or more.
+            </div>
+          </div>
+          <div class="form-group col-md-2 col-12 mb-3 d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn bg-gradient-success me-1"
+              id="addBtn"
+              *ngIf="isAddBtnVisible"
+              (click)="add(createUpdateForm)"
+            >
+              <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+            </button>
+            <button
+              type="button"
+              class="btn bg-gradient-primary me-1"
+              id="updateBtn"
+              *ngIf="isUpdateBtnVisible"
+              (click)="update(createUpdateForm)"
+            >
+              <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+            </button>
+            <button
+              type="button"
+              class="btn bg-gradient-danger"
+              id="cancelBtn"
+              *ngIf="isCancelBtnVisible"
+              (click)="cancel()"
+            >
+              <span class="btn-inner--icon"><i class="fa fa-x"></i></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4 col-12 mb-3">
+      <div class="position-relative">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Search.."
+          id="searchInput"
+          [(ngModel)]="search"
+        />
+        <i class="fa-solid fa-magnifying-glass search position-absolute end-0 top-50 translate-middle-y pe-2"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-1">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-responsive table-striped">
+          <thead>
+            <tr class="text-center">
+              <th>#</th>
+              <th>Category Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (category of categories | category:search; track category) {
+              <tr class="text-center">
+                <td>{{$index + 1}}</td>
+                <td>{{category.categoryName}}</td>
+                <td>
+                  <a
+                    (click)="get(category)"
+                    class="cursor-pointer me-1"
+                    id="btnUpdateCategory"
+                  >
+                    <i
+                      class="fa fa-edit fixed-plugin-button-nav text-primary"
+                    ></i>
+                  </a>
+                  <a
+                    (click)="delete(category.id, category.categoryName)"
+                    class="cursor-pointer"
+                    id="btnDeleteCategory"
+                  >
+                    <i
+                      class="fa fa-trash fixed-plugin-button-nav text-danger"
+                    ></i>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

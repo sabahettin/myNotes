@@ -1,0 +1,91 @@
+<div class="mt-5">
+    <div class="row">
+        <div class="d-flex flex-wrap justify-content-between">
+            <!-- Categories Column -->
+            <div class="col-md-3 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                        <h5>Categories</h5>
+                    </div>
+                    <div class="card-body pt-2">
+                        <div class="position-relative">
+                            <input type="search" class="form-control" placeholder="Search.." id="searchInput" [(ngModel)]="search">
+                            <i class="fa-solid fa-magnifying-glass search position-absolute end-0 top-50 translate-middle-y pe-2"></i>
+                        </div>
+                        <table class="table table-sm table-hover table-striped table-bordered mt-2">
+                            <tbody>
+                                <tr class="mt-1" *ngFor="let category of categories | category:search; trackBy: trackByFn" 
+                                (click)="selectCategory(category.id)">
+                                    <td style="cursor:pointer">{{category.categoryName}}</td>
+                                </tr>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Column -->
+            <div class="col-md-3 col-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                        <h5>Notes</h5>
+                    </div>
+                    <div class="card-body pt-2">
+                        <div class="position-relative">
+                            <input type="search" class="form-control" placeholder="Search.." id="searchInputs" [(ngModel)]="searchNote">
+                            <i class="fa-solid fa-magnifying-glass search position-absolute end-0 top-50 translate-middle-y pe-2"></i>
+                        </div>
+                        <table class="table table-sm table-hover table-striped table-bordered mt-2">
+                            <tbody>
+                                <tr class="mt-1" *ngFor="let note of notes | note:searchNote; trackBy: trackByFn" (click)="selectNote(note.id)">
+                                    <td style="cursor:pointer">
+                                        {{note.title}}
+                                        <a style="float:right; cursor:pointer;" (click)="deleteNote(note.id,note.categoryId)">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Column -->
+            <div class="col-md-6 col-12 mb-3">
+                <div class="card h-100 d-flex flex-column">
+                    <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                        <h5>Notes</h5>
+                    </div>
+                    <div class="card-body pt-2 d-flex flex-column">
+                        <form #createUpdateNoteForm="ngForm" (ngSubmit)="onSubmit(createUpdateNoteForm)" formValidate>
+                          <select id="categorySelect" class="form-control" name="categoryValue" required [(ngModel)]="noteModel.categoryId">
+                            <option value="" disabled selected>Category Select..</option>
+                            <option *ngFor="let category of categories; trackBy: trackByFn" [value]="category.id">{{category.categoryName}}</option>
+                          </select>
+                          <div class="invalid-feedback">Please select a category</div>
+                          <div class="form-group mt-1">
+                            <input type="text" class="form-control" id="txtTitle" name="titleValue" placeholder="Title" required minlength="2" [(ngModel)]="noteModel.title">
+                            <div class="invalid-feedback">Please lengthen this to 2 characters or more.</div>
+                          </div>
+                           <angular-editor [config]="config" required [(ngModel)]="noteModel.description" name="description"></angular-editor>
+                           <div class="invalid-feedback">Please insert a note</div>
+                           <select id="priority" class="form-control mt-2" name="priorityValue" placeholder="Select Priority" required [(ngModel)]="noteModel.priority">
+                            <option value="" selected>Priority Select..</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>                          
+                            <option value="High">High</option>
+                          </select>
+                          <div class="invalid-feedback">Please select a priority</div>
+                          <div class="mt-2">
+                            <button id="btnAdd" type="submit" class="btn bg-gradient-success w-100" *ngIf="!isUpdateMode"><i class="fa fa-save"></i> Save</button>
+                            <button id="btnUpdate" type="submit" class="btn bg-gradient-primary w-100" *ngIf="isUpdateMode"><i class="fa fa-edit"></i> Update</button>
+                            <button id="btnCancel" type="button" class="btn bg-gradient-warning w-100" (click)="cancel()"><i class="fa fa-x"></i> Cancel</button>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
